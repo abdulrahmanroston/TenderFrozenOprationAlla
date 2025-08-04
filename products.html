@@ -1080,14 +1080,10 @@
             </div>
                 
                 
-                
-            </div>
-
-
-
-            <div class="modal-actions">
+                            <div class="modal-actions">
                 <button class="save-btn" onclick="updateProduct()">Update Product</button>
                 <button class="close-btn" onclick="closeModal()">Close</button>
+            </div>
             </div>
         </div>
     </div>
@@ -1753,7 +1749,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('Please select a product.', 'error');
                 return;
             }
-            
+            closeModal();
             const inputs = {
                 name: document.getElementById('name').value.trim(),
                 arabic_name: document.getElementById('arabic_name').value.trim(),
@@ -1930,7 +1926,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('No changes to update.', 'success');
                 closeModal();
             }
-            closeModal();
         }
 
         // Transfer stock
