@@ -2245,7 +2245,7 @@ if (data.status === 'success') {
     }
 }
 
-      async function loadVaultsForSelect(selectId) {
+      async function loadVaultsForSelect(selectId, vaultNames = ['oraby cashbox']) {
     try {
         const data = await apiRequest('/vaults');
         
@@ -2254,36 +2254,36 @@ if (data.status === 'success') {
             if (select) {
                 select.innerHTML = '<option value="">Select Vault</option>';
                 
-                // أسماء الخزن التي تريد ظهورها
-                const allowedVaultNames = [
-                    'Oraby CashBox',
-                    'Giza CashBox',
-                    'Lavista CashBox'
-                    // أضف أسماء خزن أخرى هنا حسب الحاجة
-                ];
-                
-                // فلترة الخزن حسب الأسماء المطلوبة
-                const filteredVaults = data.data.filter(vault =>
-                    allowedVaultNames.some(name =>
-                        vault.name.trim().toLowerCase() === name.trim().toLowerCase()
-                    )
-                );
-                
-                // إضافة الخيارات للخزن المسموحة
-                filteredVaults.forEach(vault => {
-                    const option = document.createElement('option');
-                    option.value = vault.id;
-                    option.textContent = `${vault.name} (EGP ${formatNumber(vault.balance)})`;
-                    option.dataset.balance = vault.balance;
-                    select.appendChild(option);
+                // البحث عن الخزن المطلوبة بناءً على الأسماء المحددة
+                const matchedVaults = data.data.filter(vault => {
+                    return vaultNames.some(name => 
+                        vault.name.toLowerCase().includes(name.toLowerCase())
+                    );
                 });
-
-                // إذا كان هناك خزنة واحدة فقط، أخفِ الحقل تلقائياً
-                if (filteredVaults.length === 1) {
-                    select.selectedIndex = 1;
+                
+                if (matchedVaults.length > 0) {
+                    // إضافة جميع الخزن المطابقة
+                    matchedVaults.forEach((vault, index) => {
+                        const option = document.createElement('option');
+                        option.value = vault.id;
+                        option.textContent = `${vault.name} (EGP ${formatNumber(vault.balance)})`;
+                        option.dataset.balance = vault.balance;
+                        
+                        // اختيار الخزنة الأولى تلقائياً
+                        if (index === 0) {
+                            option.selected = true;
+                            orabyCashBoxId = vault.id; // تحديث المتغير العام
+                        }
+                        
+                        select.appendChild(option);
+                    });
+                    
+                    // إخفاء حقل الخزنة إذا كان هناك خزنة واحدة فقط
                     const formGroup = select.closest('.form-group');
-                    if (formGroup) {
+                    if (formGroup && matchedVaults.length === 1) {
                         formGroup.style.display = 'none';
+                    } else if (formGroup) {
+                        formGroup.style.display = 'block'; // إظهار الحقل إذا كان هناك أكثر من خزنة
                     }
                 }
             }
