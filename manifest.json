@@ -1,23 +1,23 @@
 {
   "name": "TenderFrozen",
   "short_name": "Frozen Dashboard",
-  "start_url": "https://abdulrahmanroston.github.io/TenderFrozen/acc.html",
+  "start_url": "https://abdulrahmanroston.github.io/TenderFrozenOprationAlla/acc.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#1a73e8",
   "icons": [
     {
-      "src": "https://abdulrahmanroston.github.io/TenderFrozen/icons/icon1.png",
+      "src": "https://abdulrahmanroston.github.io/TenderFrozenOprationAlla/icons/icon1.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "https://abdulrahmanroston.github.io/TenderFrozen/icons/icon2.png",
+      "src": "https://abdulrahmanroston.github.io/TenderFrozenOprationAlla/icons/icon2.png",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "https://abdulrahmanroston.github.io/TenderFrozen/icons/icon1.png",
+      "src": "https://abdulrahmanroston.github.io/TenderFrozenOprationAlla/icons/icon1.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "maskable"
