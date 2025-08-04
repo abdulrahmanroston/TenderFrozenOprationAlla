@@ -2245,7 +2245,7 @@ if (data.status === 'success') {
     }
 }
 
-      async function loadVaultsForSelect(selectId, vaultNames = ['oraby cashbox', 'Oraby Visa']) {
+      async function loadVaultsForSelect(selectId, vaultNames = ['oraby Cashbox', 'Oraby Visa']) {
     try {
         const data = await apiRequest('/vaults');
         
@@ -2254,12 +2254,17 @@ if (data.status === 'success') {
             if (select) {
                 select.innerHTML = '<option value="">Select Vault</option>';
                 
-                // البحث عن الخزن المطلوبة بناءً على الأسماء المحددة
+                // فلترة الخزن بناءً على الأسماء المحددة
                 const matchedVaults = data.data.filter(vault => {
-                    return vaultNames.some(name => 
-                        vault.name.toLowerCase().includes(name.toLowerCase())
+                    const vaultNameLower = vault.name.toLowerCase();
+                    
+                    // التحقق من وجود جميع الكلمات المطلوبة في اسم الخزنة
+                    return vaultNames.every(name => 
+                        vaultNameLower.includes(name.toLowerCase())
                     );
                 });
+                
+                console.log('Matched vaults:', matchedVaults); // للتشخيص
                 
                 if (matchedVaults.length > 0) {
                     // إضافة جميع الخزن المطابقة
@@ -2280,11 +2285,21 @@ if (data.status === 'success') {
                     
                     // إخفاء حقل الخزنة إذا كان هناك خزنة واحدة فقط
                     const formGroup = select.closest('.form-group');
-                    if (formGroup && matchedVaults.length === 1) {
-                        formGroup.style.display = 'none';
-                    } else if (formGroup) {
-                        formGroup.style.display = 'block'; // إظهار الحقل إذا كان هناك أكثر من خزنة
+                    if (formGroup) {
+                        if (matchedVaults.length === 1) {
+                            formGroup.style.display = 'none';
+                        } else {
+                            formGroup.style.display = 'block'; // إظهار الحقل إذا كان هناك أكثر من خزنة
+                        }
                     }
+                } else {
+                    console.log('No matching vaults found for:', vaultNames);
+                    // إضافة رسالة عدم وجود خزن مطابقة
+                    const option = document.createElement('option');
+                    option.value = '';
+                    option.textContent = 'No matching vaults found';
+                    option.disabled = true;
+                    select.appendChild(option);
                 }
             }
         }
