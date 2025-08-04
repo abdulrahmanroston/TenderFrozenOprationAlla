@@ -1032,8 +1032,9 @@
                 </div>
             </div>
            
+            
             <div class="tab-content" id="manufacturing-tab">
-                <div class="stock-price-group">
+                            <div class="stock-price-group">
                     <div class="form-group">
                         <label><i class="fas fa-box"></i> Manufacturing Stock</label>
                         <div class="stock-group">
@@ -1043,6 +1044,15 @@
                             <button class="stock-btn" onclick="adjustStock('manufacturing', -1)" title="Decrease stock">−</button>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-dollar-sign"></i> Manufacturing Price</label>
+                        <input type="number" id="price-manufacturing" step="0.01" placeholder="Enter Manufacturing price">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-exclamation-triangle"></i> Manufacturing Minimum Stock</label>
+                        <input type="number" id="min-stock-manufacturing" placeholder="Enter minimum stock">
+                    </div>
+                </div>
                 </div>
                 
                 
@@ -1077,7 +1087,6 @@
 
             <div class="modal-actions">
                 <button class="save-btn" onclick="updateProduct()">Update Product</button>
-                <button class="reset-btn" onclick="resetForm()">Reset Fields</button>
                 <button class="close-btn" onclick="closeModal()">Close</button>
             </div>
         </div>
@@ -1391,7 +1400,6 @@
             let stockStatus, stockClass, stockDisplay;
             let isOutOfStock = false;
             let isLowStock = false;
-            console.log(product);
             if (currentWarehouseFilter === 'all') {
                 stockStatus = product.stock_status === 'instock' ? 'In Stock' : 'Out of Stock';
                 stockClass = product.stock_status === 'instock' ? 'instock' : 'outofstock';
@@ -1819,7 +1827,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             value: inputs.arabic_name
                         }]
                     };
-                    console.log('Sending Arabic name update:', JSON.stringify(arabicNameData, null, 2));
                     const response = await fetch(`${apiUrl}/${currentProduct.id}`, {
                         method: 'PUT',
                         headers: {
@@ -1830,7 +1837,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     
                     const responseData = await response.json();
-                    console.log('Arabic name update response:', JSON.stringify(responseData, null, 2));
                     
                     if (!response.ok) {
                         showErrorModal(`Failed to update Arabic name: ${responseData.message || 'Unknown error'}`);
@@ -1889,8 +1895,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
             
-            // Log the data being sent for debugging
-            console.log('Data to be sent to API:', JSON.stringify(data, null, 2));
             
             // Only send the update request if there are changes to apply
             if (data.name || data.stock_status || data.regular_price || data.meta_data.length > 0) {
@@ -1906,7 +1910,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     
                     const responseData = await response.json();
-                    console.log('API response:', JSON.stringify(responseData, null, 2));
+
                     
                     if (response.ok) {
                         showToast('Product updated successfully!', 'success');
@@ -1926,6 +1930,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast('No changes to update.', 'success');
                 closeModal();
             }
+            closeModal();
         }
 
         // Transfer stock
@@ -2095,9 +2100,8 @@ document.addEventListener('DOMContentLoaded', () => {
         fab.innerHTML = '<i class="fas fa-box"></i>';
         document.querySelector('#transfer-section').classList.add('active');
         document.querySelector('#products-section').classList.remove('active');
-        console.log('Current transfer section display:', transferDisplay);
     } else {
-        console.log('Showing products section');
+
         transferSection.style.display = 'none !important';
         productsSection.style.display = 'block !important';
         fab.innerHTML = '<i class="fas fa-exchange-alt"></i>';
