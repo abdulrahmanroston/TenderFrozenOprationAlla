@@ -1039,7 +1039,7 @@
                         <label><i class="fas fa-box"></i> Manufacturing Stock</label>
                         <div class="stock-group">
                             <span id="current-stock-manufacturing">0</span>
-                            <input type="number" id="adjust-stock-manufacturing" placeholder="Adjust (+/-)">
+                            <input type="number" id="adjust-stock-manufacturing"  step="1" placeholder="Add Stock">
                             <button class="stock-btn" onclick="adjustStock('manufacturing', 1)" title="Increase stock">+</button>
                             <!-- <button class="stock-btn" onclick="adjustStock('manufacturing', -1)" title="Decrease stock">−</button> -->
                         </div>
@@ -1911,7 +1911,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (response.ok) {
                         showToast('Product updated successfully!', 'success');
                         await fetchProducts();
-                        closeModal();
                     } else {
                         showErrorModal(`Failed to update product: ${responseData.message || 'Unknown error'}`);
                         console.error('API Error:', responseData);
@@ -1924,7 +1923,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } else {
                 showToast('No changes to update.', 'success');
-                closeModal();
             }
         }
 
