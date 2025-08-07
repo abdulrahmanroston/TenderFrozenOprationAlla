@@ -1941,7 +1941,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function saveStatusFilter() {
-    const statusFilter = ["pending", "processing", "on-hold", "on-delivery", "delivered", "refunded", "failed"];
+    const statusFilter = ["pending", "paid", "processing", "on-hold", "on-delivery", "delivered", "refunded", "failed"];
     localStorage.setItem('status-filter', JSON.stringify(statusFilter));
     console.log('Status filter saved:', localStorage.getItem('status-filter'));
 }
